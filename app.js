@@ -587,7 +587,7 @@ function _renderDBHero(entries){
   const today=new Date().toISOString().slice(0,10);
   const te=entries.find(e=>e.date===today);
   let score=null;
-  if(te?.weather?.pressure){ const ch=te.weather.pressureChange??0; score=ch<=-7?7:ch<=-4?5.5:ch<=-2?3.5:1.5; }
+  const fc=forecastCache[today]; if(fc){ score=fc.score; } else if(te?.weather?.pressure){ const ch=te.weather.pressureChange??0; score=ch<=-7?7:ch<=-4?5.5:ch<=-2?3.5:1.5; }
   const rc=dbRiskClass(score??2);
   if(num){num.textContent=score!=null?score.toFixed(1):'—';num.className=`db-score-num ${rc}`;}
   if(pill){pill.textContent=`⬤ ${dbRiskLabel(score??2)}`;pill.className=`db-risk-pill ${rc}`;}
